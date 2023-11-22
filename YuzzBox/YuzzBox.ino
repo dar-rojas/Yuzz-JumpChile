@@ -2,6 +2,7 @@
 #include "PowerRelay.h"
 #include "CurrentSensor.h"
 #include "SoftwareSerial.h"
+#include "Led.h"
 #include "LedRing.h"
 #include <Adafruit_NeoPixel.h>
 
@@ -11,9 +12,10 @@ Battery battery(&swSerial, &current_sensor);
 PowerRelay relay(5, &battery); // Relay in pin D1
 Adafruit_NeoPixel ring = Adafruit_NeoPixel(16, 4, NEO_GRB + NEO_KHZ800); //D2
 LedRing ledRing = LedRing(&ring);
-
+Led chargingLed = Led(13, &battery);
 void setup(){
   battery.attach(&relay);
+  battery.attach(&chargingLed);
   ring.begin();
 }
 
